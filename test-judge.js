@@ -12,7 +12,7 @@ const cases=[['b','玻',1],['b','爸',0],['zh','知',1],['zh','资',0],['zhǎo',
 ['床前明月光，疑是地上霜','床前明月光疑是地上霜',1],['床前明月光，疑是地上霜','床前明月光',0],['床前明月光，疑是地上霜','窗前明月光，疑是地上霜',1],
 ['3 × 7 = ?','三七二十一',1],['3 × 7 = ?','21',1],['3 × 7 = ?','3×7=21',1],['3 × 7 = ?','二十',0],['3 × 7 = ?','二十七',0],
 ['apple','apple',1],['apple','Apples',1],['apple','happy',0],['I am fine thank you',"I'm fine, thank you.",1],['How are you','how old are you',1],['How are you','hello',0],
-['B b','bee',1],['B b','B',1],['B b','D',0],['W w','double you',1]];
+['汪汪','汪汪汪',1],['汪汪','旺旺',0],['有几个？','一个',1],['有几个？','三',0],['红','红色',1],['红','黄',0],['B b','bee',1],['B b','B',1],['B b','D',0],['W w','double you',1]];
 let bad=0;
 for(const [s,heard,exp] of cases){const it=find(s);if(!it){console.log('缺条目',s);bad++;continue;}
  const got=J.judge([heard],it)?1:0;if(got!==exp){bad++;console.log('错',s,'|',heard,'期望',exp,'实际',got);}}

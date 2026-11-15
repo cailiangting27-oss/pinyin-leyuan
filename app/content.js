@@ -152,5 +152,71 @@
     { id: 'math', name: '数学', icon: '🔢', units: MATH },
     { id: 'english', name: '英语', icon: '🔠', units: EN },
   );
+  // ---------- 妹妹（幼儿园）：拼音之外的启蒙 ----------
+  const FRUITS = ['🍎', '🍌', '🍓', '⭐', '🎈', '🐟', '🌸', '🚗', '🐥', '🍊'];
+  function countItems(from, to, seed) { // 看图数数
+    const r = rng(seed), out = [];
+    for (let n = from; n <= to; n++) {
+      const pic = FRUITS[Math.floor(r() * FRUITS.length)];
+      out.push({ type: 'math', kind: '数一数', show: '有几个？', pic: pic.repeat(n), ans: n, say: '数一数，有几个', hint: '数一数，把数读出来', emoji: '' });
+    }
+    return out;
+  }
+  function numberItems(list) { // 认数字
+    return list.map(n => ({ type: 'math', kind: '认数字', show: String(n), ans: n, say: cn(n), hint: '这是几？读出来', emoji: '' }));
+  }
+  function poemsOf(names, grade) {
+    return POEMS[grade].filter(p => names.includes(p[0])).map(([title, author, text]) => {
+      const lines = text.split('。').filter(Boolean);
+      return lines.map((line, i) => ({ type: 'poem', kind: '古诗', title, author, lines, idx: i, show: line, say: line, emoji: '' }));
+    });
+  }
+  const ziItems = (list, kind, pic) => list.map(s => { const [w, e, hint] = s.split(' '); return { show: w, say: w, ok: null, emoji: e || '', kind, word: true, pic: !!pic, hint: hint || '' }; });
+
+  COURSES.mid.push(
+    { id: 'math', name: '数学', icon: '🔢', units: [
+      unit('看图数数 1~5', COL.sx, countItems(1, 5, 41), 5),
+      unit('看图数数 6~10', COL.sx, countItems(6, 10, 42), 5),
+      unit('认数字 1~10', COL.sx, numberItems([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), 5),
+      unit('认数字 11~20', COL.sx, numberItems([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]), 5),
+      unit('5 以内加减', COL.sx, gen(43, 10, r => { const a = ri(r, 0, 5), b = ri(r, 0, 5); return r() < .5 ? (a + b <= 5 ? q(a, '+', b, a + b) : null) : (a >= b ? q(a, '-', b, a - b) : null); }), 5),
+      unit('10 以内加减', COL.sx, gen(44, 15, r => { const a = ri(r, 0, 10), b = ri(r, 0, 10); return r() < .5 ? (a + b <= 10 ? q(a, '+', b, a + b) : null) : (a >= b ? q(a, '-', b, a - b) : null); }), 5),
+    ] },
+    { id: 'poem', name: '儿歌古诗', icon: '🎵', units: [
+      { title: '古诗跟读', color: COL.gs, lessons: poemsOf(['咏鹅', '静夜思', '春晓', '悯农', '画', '风'], 1) },
+    ] },
+    { id: 'zi', name: '认字', icon: '📖', units: [
+      unit('认字 · 自然', COL.yw, ziItems(['日 ☀️', '月 🌙', '山 ⛰️', '水 💧', '火 🔥', '木 🌳', '云 ☁️', '雨 🌧️', '天 🌤️', '田 🌾']), 5),
+      unit('认字 · 人和身体', COL.yw, ziItems(['人 🧍', '大 🐘', '小 🐣', '口 👄', '目 👁️', '耳 👂', '手 ✋', '足 🦶', '上 ⬆️', '下 ⬇️']), 5),
+      unit('认字 · 数字', COL.yw, ziItems(['一 1️⃣', '二 2️⃣', '三 3️⃣', '四 4️⃣', '五 5️⃣', '六 6️⃣', '七 7️⃣', '八 8️⃣', '九 9️⃣', '十 🔟']), 5),
+      unit('认字 · 动物', COL.yw, ziItems(['马 🐴', '牛 🐮', '羊 🐑', '鸟 🐦', '鱼 🐟', '虫 🐛', '猫 🐱', '狗 🐶']), 4),
+    ] },
+    { id: 'english', name: '英语', icon: '🔠', units: [
+      unit('颜色', COL.yy, [['red', '红色', '🔴'], ['blue', '蓝色', '🔵'], ['yellow', '黄色', '🟡'], ['green', '绿色', '🟢']].map(a => en(...a)), 2),
+      unit('小动物', COL.yy, [['cat', '猫', '🐱'], ['dog', '狗', '🐶'], ['pig', '猪', '🐷'], ['duck', '鸭子', '🦆'], ['fish', '鱼', '🐟'], ['bird', '鸟', '🐦']].map(a => en(...a)), 3),
+      unit('数字 1~5', COL.yy, [['one', '一', '1️⃣'], ['two', '二', '2️⃣'], ['three', '三', '3️⃣'], ['four', '四', '4️⃣'], ['five', '五', '5️⃣']].map(a => en(...a)), 5),
+    ] },
+  );
+
+  // ---------- 弟弟（2 岁）：看图说话 ----------
+  COURSES.baby.push(
+    { id: 'words', name: '认物说话', icon: '🧸', units: [
+      unit('家里的东西', COL.yw, ziItems(['灯 💡', '门 🚪', '床 🛏️', '杯子 🥤', '鞋 👟', '帽子 🧢', '球 ⚽', '书 📕'], '看图说话', true), 2),
+      unit('好吃的', COL.yw, ziItems(['苹果 🍎', '香蕉 🍌', '西瓜 🍉', '葡萄 🍇', '草莓 🍓', '牛奶 🥛', '面包 🍞', '鸡蛋 🥚'], '看图说话', true), 2),
+      unit('小动物', COL.yw, ziItems(['猫 🐱', '狗 🐶', '鱼 🐟', '鸟 🐦', '猪 🐷', '鸭子 🦆', '兔子 🐰', '老虎 🐯', '大象 🐘', '熊猫 🐼'], '看图说话', true), 2),
+      unit('车和身体', COL.yw, ziItems(['汽车 🚗', '飞机 ✈️', '火车 🚂', '船 ⛵', '眼睛 👀', '耳朵 👂', '鼻子 👃', '嘴巴 👄', '小手 ✋', '小脚 🦶'], '看图说话', true), 2),
+    ] },
+    { id: 'sound', name: '动物叫声', icon: '🐶', units: [
+      unit('谁在叫', COL.gs, ziItems(['汪汪 🐶 小狗怎么叫？', '喵喵 🐱 小猫怎么叫？', '哞哞 🐮 小牛怎么叫？', '嘎嘎 🦆 小鸭怎么叫？', '咩咩 🐑 小羊怎么叫？', '呱呱 🐸 青蛙怎么叫？', '叽叽 🐥 小鸡怎么叫？', '嗡嗡 🐝 小蜜蜂怎么叫？'], '动物叫声', true), 2),
+    ] },
+    { id: 'count', name: '数数', icon: '🔢', units: [
+      unit('认数字 1~5', COL.sx, numberItems([1, 2, 3, 4, 5]), 2),
+      unit('看图数数 1~5', COL.sx, countItems(1, 5, 51), 2),
+    ] },
+    { id: 'color', name: '颜色', icon: '🎨', units: [
+      unit('认颜色', COL.yy, ziItems(['红 🔴', '黄 🟡', '蓝 🔵', '绿 🟢', '白 ⚪', '黑 ⚫'], '颜色', true), 2),
+    ] },
+  );
+
   window.cnNumber = cn;
 })();
