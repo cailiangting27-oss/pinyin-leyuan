@@ -283,6 +283,13 @@
       return `<div class="poem-title">${h(it.title)}</div><div class="poem-author">${h(it.author)}</div>
         <div class="poem">${it.lines.map((l, i) => `<div class="pl ${i < it.idx ? 'past' : i === it.idx ? 'cur' : ''}">${i === it.idx ? `<div class="pl-py">${h(P.pinyin(l.replace(PUNCT, '')))}</div>` : ''}${h(l)}。</div>`).join('')}</div>`;
     }
+    if (it.type === 'math' && it.pic) {
+      return `<div class="count-pic">${[...it.pic.matchAll(/\p{Extended_Pictographic}️?/gu)].map(m => `<span>${m[0]}</span>`).join('')}</div><div class="hint">${h(it.hint)}</div>`;
+    }
+    if (it.word && it.pic) {
+      return `<div class="pic-big">${it.emoji}</div>${it.hint ? `<div class="hint">${h(it.hint)}</div>` : ''}
+        <div class="py-small">${h(P.pinyin(it.show))}</div><div class="big han small-han">${h(it.show)}</div>`;
+    }
     if (it.type === 'math') {
       return `<div class="big math">${h(it.show)}</div>${it.hint ? `<div class="hint">${h(it.hint)}</div>` : `<div class="hint">把答案读出来</div>`}`;
     }
