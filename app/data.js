@@ -154,7 +154,7 @@ const isPing = r => ['z', 'c', 's'].includes(r[0]);
 const isQiao = r => ['zh', 'ch', 'sh', 'r'].includes(r[0]);
 
 // ---------- 三个孩子的课程 ----------
-const COURSES = {
+const PINYIN = {
   // 一年级姐姐：全套，按课本顺序，每课 6 个
   big: [
     unit('单韵母', C.yunmu, dan(), 6),
@@ -198,6 +198,13 @@ const COURSES = {
     unit('两拼音节', C.pin, syl(LIANGPIN_EASY.slice(0, 12), '两拼音节'), 3),
     unit('拼字', C.zi, zi(ZI_BABY), 2),
   ],
+};
+
+// 每个孩子 = 若干科目；语文、数学、英语在 content.js 里加给姐姐
+const COURSES = {
+  big: [{ id: 'pinyin', name: '拼音', icon: '🔤', units: PINYIN.big }],
+  mid: [{ id: 'pinyin', name: '拼音', icon: '🔤', units: PINYIN.mid }],
+  baby: [{ id: 'pinyin', name: '拼音', icon: '🔤', units: PINYIN.baby }],
 };
 
 const KIDS_DEFAULT = [

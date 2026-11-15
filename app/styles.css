@@ -99,3 +99,27 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .testbox input { flex: 1; font: inherit; padding: 8px; border-radius: 10px; border: 1px solid var(--line); }
 .confetti { position: fixed; top: -40px; font-size: 30px; pointer-events: none; animation: fall 1.6s linear forwards; z-index: 9; }
 @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: .6; } }
+
+/* 科目切换 */
+.tabs { display: flex; gap: 8px; margin: 4px 0 14px; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: 1; min-width: 72px; background: var(--card); border-radius: 16px; padding: 10px 6px; font-weight: 700; font-size: 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tab small { font-weight: 400; font-size: 12px; color: var(--sub); }
+.tab.on { background: var(--ink); color: #fff; }
+.tab.on small { color: #ddd; }
+
+/* 古诗 */
+.poem-title { font-size: 26px; font-weight: 800; font-family: "Kaiti SC", "STKaiti", serif; }
+.poem-author { color: var(--sub); font-size: 14px; margin: 2px 0 12px; }
+.poem { font-family: "Kaiti SC", "STKaiti", "PingFang SC", serif; }
+.pl { font-size: 20px; color: #c2bcb2; padding: 6px 4px; line-height: 1.5; }
+.pl.past { color: var(--ok); }
+.pl.cur { font-size: 28px; color: var(--ink); font-weight: 700; background: #fff3e2; border-radius: 14px; padding: 8px; }
+.pl-py { font-size: 14px; font-weight: 400; color: var(--sub); font-family: "Avenir Next", -apple-system, sans-serif; }
+
+/* 数学、英语、成语 */
+.big.math { font-size: 64px; letter-spacing: 0; }
+.big.en { font-size: 76px; letter-spacing: 0; text-transform: none; }
+.big.en.l { font-size: 52px; }
+.big.en.xl { font-size: 34px; line-height: 1.3; }
+.big.han.idiom { font-size: 64px; }
